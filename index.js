@@ -1,4 +1,4 @@
-let AWS = require("aws-sdk");
+let stripe = require('stripe')(process.env.STRIPE_API_KEY);
 
 //
 //	LAMBDA_DESCRIPTION
