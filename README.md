@@ -8,8 +8,6 @@ Copy&Paste the following command to create the `.env` file with all the environm
 
 ```
 printf "%s\n" \
-AWS_ACCESS_KEY_ID=DATA \
-AWS_SECRET_ACCESS_KEY=DATA \
 STRIPE_API_KEY=DATA \
 >> .env
 ```
