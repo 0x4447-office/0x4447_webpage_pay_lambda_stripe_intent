@@ -11,29 +11,26 @@ exports.handler = (event) => {
 		//	1. This container holds all the data to be passed around the chain.
 		//
 		let container = {
-			req: {},
+			req: {
+				amount:event.amount,
+				currency:event.currency,
+				metadata:event.metadata,
+			},
 			//
 			//	The default response for Lambda.
 			//
 			res: {
-                message: "OK"
-            }
+				client_secret:''
+				}
 		}
 
 		//
 		//	->	Start the chain.
 		//
-		step_one(container)
+		return_payment_intent(container)
 			.then(function(container) {
-
-				return step_two(container);
-
-			}).then(function(container) {
-
-				//
-				//  ->  Send back the good news.
-				//
-				return resolve(container.res);
+				
+				return container.res
 
 			}).catch(function(error) {
 
@@ -57,33 +54,29 @@ exports.handler = (event) => {
 //
 //
 //
-function step_one(container)
+function return_payment_intent(container)
 {
 	return new Promise(function(resolve, reject) {
 
-        console.info("step_one");
-
         //
-        //	->	Move to the next promise.
-        //
-        return resolve(container);
-
-	});
-}
-
-//
-//
-//
-function step_two(container)
-{
-	return new Promise(function(resolve, reject) {
-
-		console.info("step_two");
-
-		//
-        //	->	Move to the next promise.
-        //
-        return resolve(container);
-
+				//	Create payment intent object using stripe
+				//
+				stripe.paymentIntents.create({
+					amount: parseInt(container.req.amount),
+					currency: container.req.currency,
+					// Verify your integration in this guide by including this parameter
+					metadata: container.req.metadata,
+				}).then(function(resp){
+					//
+					//	Set client secret in container variable.
+					//
+					container.res.client_secret = resp.client_secret
+					//
+					//	->	Move to the next promise.
+					//
+					return resolve(container);
+				}).catch(function(err){
+					return reject(err.message)
+				})
 	});
 }

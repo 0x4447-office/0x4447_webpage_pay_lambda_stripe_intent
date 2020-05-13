@@ -1,1 +1,5 @@
-{}
+{
+  "amount":1000,
+  "currency":"usd",
+  "metadata":{"integration_check": "accept_a_payment"}
+}
