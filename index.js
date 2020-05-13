@@ -30,7 +30,7 @@ exports.handler = (event) => {
 		return_payment_intent(container)
 			.then(function(container) {
 				
-				return container.res
+				return resolve(container.res)
 
 			}).catch(function(error) {
 
