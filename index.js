@@ -20,7 +20,7 @@ exports.handler = (event) => {
 			//	The default response for Lambda.
 			//
 			res: {
-				client_secret:''
+				client_secret: ''
 			}
 		}
 
@@ -52,7 +52,7 @@ exports.handler = (event) => {
 //
 
 //
-//
+//	Create a payment intent so we can charge the user with thier card.
 //
 function return_payment_intent(container)
 {
@@ -81,6 +81,7 @@ function return_payment_intent(container)
 
 		}).catch(function(err){
 
+			console.info(params);
 			return reject(err.message)
 
 		})
