@@ -1,7 +1,7 @@
 let stripe = require('stripe')(process.env.STRIPE_API_KEY);
 
 //
-//	LAMBDA_DESCRIPTION
+//	Create a Stripe intent to allow payment on the site.
 //
 exports.handler = (event) => {
 
@@ -58,6 +58,9 @@ function return_payment_intent(container)
 {
 	return new Promise(function(resolve, reject) {
 
+		//
+		//	1.	Prepare the request.
+		//
 		let params = {
 			amount: parseInt(container.req.amount),
 			currency: container.req.currency,
@@ -65,12 +68,12 @@ function return_payment_intent(container)
 		};
 
         //
-		//	Create payment intent object using stripe
+		//	--> Execute the request.
 		//
 		stripe.paymentIntents.create(params).then(function(resp) {
 
 			//
-			//	Set client secret in container variable.
+			//	1.	Set client secret in container variable.
 			//
 			container.res.client_secret = resp.client_secret
 			
